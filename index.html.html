@@ -1,0 +1,181 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <style>
+        :root {
+            --primary-pink: #ff4d6d;
+            --bg-pink: #ffe4e1;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bg-pink);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Initial Floating Box */
+        #initial-box {
+            padding: 30px 50px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+            transition: transform 0.3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        #initial-box:hover { transform: scale(1.1); }
+
+        /* Letter Container */
+        #letter-container {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        .buttons {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yes-btn { 
+            background-color: var(--primary-pink); 
+            color: white; 
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #no-btn {
+            background-color: #f0f0f0;
+            color: #666;
+            position: absolute; /* Needed for random movement */
+            transition: left 0.2s ease, top 0.2s ease;
+        }
+
+        /* Final Surprise */
+        #final-surprise {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .heart-icon {
+            color: var(--primary-pink);
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        #final-surprise img {
+            max-width: 320px;
+            border-radius: 20px;
+            border: 8px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="initial-box" onclick="openLetter()">
+        <div style="font-size: 40px;">✉️</div>
+        <h2>A message for you</h2>
+        <p>Click to open</p>
+    </div>
+
+    <div id="letter-container">
+        <div class="heart-icon">💝</div>
+        <h2 id="question-text">Will you stay with me for as long as you can?</h2>
+        <div class="buttons">
+            <button id="yes-btn" onclick="showSurprise()">Yes!</button>
+            <button id="no-btn" onmouseover="moveNo()">No</button>
+        </div>
+    </div>
+
+    <div id="final-surprise">
+        <h1 style="color: #d81b60;">Yay! I love you! ❤️</h1>
+        <img src="https://i.postimg.cc/BZVKCTGF/IMG-9577.avif" alt="Us">
+        <p style="margin-top: 20px; color: #666;">You're stuck with me now! 🥰</p>
+    </div>
+
+    <script>
+        let yesSize = 20;
+        
+        function openLetter() {
+            document.getElementById('initial-box').style.display = 'none';
+            document.getElementById('letter-container').style.display = 'block';
+            
+            // Set initial position of No button relative to the container
+            const noBtn = document.getElementById('no-btn');
+            noBtn.style.position = 'static'; 
+        }
+
+        function moveNo() {
+            const btn = document.getElementById('no-btn');
+            const yesBtn = document.getElementById('yes-btn');
+            
+            // Switch to absolute after first hover to allow free movement
+            btn.style.position = 'absolute';
+
+            // Random coordinates that stay within the viewport
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 20);
+            
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+
+            // Fun Bonus: Make the "Yes" button bigger every time they try to click "No"
+            yesSize += 5;
+            yesBtn.style.fontSize = yesSize + 'px';
+            yesBtn.style.padding = (yesSize/2) + 'px ' + (yesSize*1.5) + 'px';
+        }
+
+        function showSurprise() {
+            document.getElementById('letter-container').style.display = 'none';
+            document.getElementById('final-surprise').style.display = 'block';
+            
+            // Optional: Log a little celebration to the console
+            console.log("Success! ❤️");
+        }
+    </script>
+</body>
+</html>
